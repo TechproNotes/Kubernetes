@@ -1,0 +1,39 @@
+Kubernetes Installation manually on EC2 Instances
+
+Step1: Manual Installation Using Amazon EC2 Machines ( Amazon Linux 2 )
+________________________________________________________________
+      Create an AWS account or sign in to an existing one
+      Launch EC2 Instances: Create EC2 instances (at least 3) in the same VPC(Virtual Private Cloud) and security group. 
+      While launching AWS EC2 instances, make sure that you open all the ports in the related security groups.
+
+step2: Install Docker on each EC2 instance. Be a root user. (including master and worker nodes)
+________________________________________________________________________________________________
+      sudo su
+      yum install docker -y
+      systemctl enable docker && systemctl start docker
+
+step3: Install Kubeadm, kubelet, and kubectl: On each EC2 instance
+___________________________________________________________________
+      cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+      [kubernetes]
+      name=Kubernetes
+      baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+      enabled=1
+      gpgcheck=1
+      repo_gpgcheck=1
+      gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+      EOF
+      setenforce 0
+      yum install -y kubelet kubeadm kubectl
+      systemctl enable kubelet && systemctl start kubelet
+
+step4: initialize the master node using "kubeadm init" command
+___________________________________________________________________
+      kubeadm init
+      if you are the root user, you can run:
+            export KUBECONFIG=/etc/kubernetes/admin.conf
+
+step5: Join them as worker nodes to the master node using the kubeadm join command obtained from the output of the kubeadm init command
+_________________________________________________________________________________________________________________________________________
+      kubeadm join 172.31.19.16:6443 --token sy1i9v.nr21vq6jfyd8aj7y \
+        --discovery-token-ca-cert-hash sha256:796070e584f1cd581fe390517283d6f01dca6b1da6d7be5cf58e7712dd657fe2  # this is an example... use it accordingly
