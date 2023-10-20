@@ -1,0 +1,54 @@
+1. External systems: Here we use kubectl or UI that interacts with kube-apiserver and send commands to master node. Each command is converted into an API call and in that way we can speak with kubernetes cluster
+
+The control plane is responsible for managing the cluster and maintaining the desired state of the cluster.
+
+following components.
+
+kube-apiserver
+etcd
+kube-scheduler
+controller manager
+
+The Worker nodes are responsible for running containerized applications. The worker Node has the following components.
+
+kubelet
+kube-proxy
+Container runtime
+
+kube-Apiserver
+End users, and other cluster components (kubectl), talk to the cluster via the API server through HTTP REST APIs to interact with the cluster.
+Also, this is the only component that communicates with the etcd cluster, making sure data is stored in etcd 
+The communication between the API server and other components in the cluster happens over TLS to prevent unauthorized access to the cluster.
+
+etcd
+
+simply, when you use kubectl to get kubernetes object details, you are getting it from etcd. Also, when you deploy an object like a pod, an entry gets created in etcd.
+distributed key value storage which is used to store the Kubernetes cluster data (such as number of pods, their state, namespace, etc), API objects and service discovery details. It is only accessible from the API server for security reasons. 
+
+kube-scheduler
+
+It helps schedule the pods on the sufficient worker nodes based on resource utilization
+For example, if the application needs 1GB of memory and 2 CPU cores, then the pods for that application will be scheduled on a node with at least those resources. 
+
+kube controller manager
+ It runs a number of controller processes in the background (for example, replication controller controls number of replicas in a pod).
+
+It is responsible,  When a change in a service configuration occurs (for example, replacing the image from which the pods are running, or changing parameters in the configuration yaml file), the controller spots the change and starts working towards the new desired state.
+
+If there is a difference in the actual and desired state, it ensures that the kubernetes resource/object is in the desired state.
+
+
+Kubelet
+
+Kubelet is an agent component that runs on every node in the cluster. It is responsible for regularly taking in new or modified pod specifications through the kube-apiserver and ensuring that pods and their containers are healthy and running in the desired state. This component also reports to the master on the health of the host where it is running.
+
+Kubeproxy
+
+Kube-Proxy usually runs in your cluster in the form of a DaemonSet on all the nodes.We know that Pods in Kubernetes are ephemeral, which means they are easily terminated and recreated. When a Pod is recreated, it gets a new IP address different from its predecessor. The lack of IP permanency is why we cannot rely on a Pod’s IP address for communication.
+
+This is where a Service object comes into play.Kube-proxy helps with Service to pod mapping by maintaining a network routing table that maps Service IP addresses to the IP addresses of the pods that belong to the Service. When a request is made to a Service, kube-proxy uses this mapping to forward the request to a Pod belonging to the Service.
+
+Container Runtime
+You probably know about Java Runtime (JRE). It is the software required to run Java programs on a host. In the same way, container runtime is a software component that is required to run containers.
+
+Container runtime runs on all the nodes in the Kubernetes cluster. It is responsible for pulling images from container registries, running containers, allocating and isolating resources for containers, and managing the entire lifecycle of a container on a host.
