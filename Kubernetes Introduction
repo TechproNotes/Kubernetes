@@ -1,0 +1,20 @@
+Kubernetes is one of the most exciting technologies in the world of DevOps these days. The reason for its instantaneous fame is the mighty containers.
+
+What is a container then and why it is used in kubernetes?
+  simply A container is nothing but a virtual machine that is running on a physical server. A container provides a complete operating system and all the applications and libraries that are required to run a software application.
+So, if you want to build a software application, you need to install the dependencies in the container, and if you want to run the application then you need to install the containers in the host machine.
+This is the basic concept of a container, Conatainers brings scalability challenges and thats wherer the Kubernetes uses this concept to manage the applications.
+
+Kubernetes abbreviated as k8s, this is an open-source container orchestration platform and One of the main reasons for using Kubernetes is to automate the process of creating, deploying, managing and monitoring the containers.
+This allows the developers to focus on their primary task, which is writing the code. Kubernetes does all the work for them.
+
+where did it comes from
+It was developed by Google and later donated to CNCF in 2014 and generally written in Go language
+
+For example
+earlier days,  the deployment has succeed in test environment, but fails during production environment because of mismatching dependencies, binaries etc. Kubernetes built around with containerization that packages the application along with it dependencies, and allowing it to run consistently across different environments
+
+Benefits of using kubernetes
+Speed of deployment
+Ability to abdorb changes quickly
+Ability to recover quickly Hide complexity in the cluster
